@@ -4,4 +4,7 @@ project(compile_build_run C)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(compile_build_run
-        hello.c)
+        hello.c
+        static_hello_lib.c
+        static_hello_lib.h
+        )
