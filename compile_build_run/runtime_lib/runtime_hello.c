@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <dlfcn.h>
 
-void run() {
+void runtime_hello() {
 	void *handle;
 	void (*print_hello)(void);
 	
@@ -22,7 +22,7 @@ void run() {
 }
 
 int main() {
-	run();
+	runtime_hello();
 	return 0;
 }
 
