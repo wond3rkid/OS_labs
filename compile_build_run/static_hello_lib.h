@@ -1,6 +1,0 @@
-#ifndef COMPILE_BUILD_RUN_STATIC_HELLO_LIB_H
-#define COMPILE_BUILD_RUN_STATIC_HELLO_LIB_H
-
-void hello_from_static_lib();
-
-#endif //COMPILE_BUILD_RUN_STATIC_HELLO_LIB_H
