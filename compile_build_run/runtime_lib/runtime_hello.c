@@ -17,8 +17,13 @@ void runtime_hello() {
 		printf("Error with function: %s", dlerror());
 		return;
 	}
+	
 	print_hello();
-	dlclose(handle);
+	
+	if (dlclose(handle)) {
+		printf("Error with dlclose(handle)");
+		return;
+	}
 }
 
 int main() {
