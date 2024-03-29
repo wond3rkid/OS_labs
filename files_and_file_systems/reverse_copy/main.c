@@ -1,10 +1,11 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <string.h>
-#include <malloc.h>
 #include <stdlib.h>
 #include <dirent.h>
 #include <stdbool.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 #define EXIT_SUCCESS 0
 #define EXIT_ERROR 1
@@ -47,17 +48,30 @@ void create_directory(char *name) {
 
 void file_name_handler(char *name, char *res_name) {
     size_t length = strlen(name);
+    bool flag = false;
     int ind = 0;
     while (ind != length) {
         if (name[ind] == '.') {
-            //file .smth
+            flag = true;
+            break;
         }
         ind++;
     }
+    // rev_name сейчас содержит строку до точки если точки нет то всю
     char *rev_name = malloc(sizeof(char) * ind);
     strncpy(rev_name, name, ind);
-    reverse_string(rev_name, res_name);
-    res_name[ind] = '\0';
+    rev_name[ind] = '\0';
+    if (!flag) {
+        reverse_string(rev_name, res_name);
+        res_name[ind] = '\0';
+    } else {
+        char *tmp = malloc(sizeof(char) * ind);
+        reverse_string(rev_name, tmp);
+        strcat(res_name, rev_name);
+        strcat(res_name, tmp + ind + 1);
+        free(tmp);
+    }
+    free(rev_name);
 }
 
 bool file_reverse_write(FILE *file_src, FILE *file_dest) {
@@ -85,33 +99,44 @@ bool file_reverse_write(FILE *file_src, FILE *file_dest) {
     return EXIT_SUCCESS;
 }
 
-void handle_file(FILE *src, char *src_name) {
+void handle_file(FILE *src, char *src_name, char *dest_path) {
+    // сначала переворачиваем имчя файла
     char *rev_name = malloc(sizeof(char) * (strlen(src_name)));
-    file_name_handler(src_name, rev_name);
 
-    FILE *dest= fopen(rev_name, "wb");
+    char *full = malloc(sizeof(char) * (strlen(dest_path) + strlen(rev_name)));
+    file_name_handler(src_name, rev_name);
+    get_full_path(rev_name, dest_path, full);
+    FILE *dest = fopen(rev_name, "wb");
     file_reverse_write(src, dest);
     fclose(dest);
 }
 
-bool directory_handler(char *path, char *dstn_path) {
+bool directory_handler(char *path, char *dest_path) {
+    fprintf(stderr, "%s \n", path);
+    //обработчик открытия директории
     DIR *d;
     struct dirent *dir;
     d = opendir(path);
+
     if (d == NULL) {
         fprintf(stderr, "Error with opening directory");
         return EXIT_ERROR;
     }
+
     while ((dir = readdir(d)) != NULL) {
         struct stat file_stat;
+        // если файл регулярный, то вызываем его обработчик, передавая туда, название файла, исходный файл, и директорию куда записываем этот файл потом файл закрываем
+        fprintf(stderr, "current file %s isreg: %d file stat: %d  \n", dir->d_name, S_ISREG(file_stat.st_mode),
+                stat(dir->d_name, &file_stat));
+
         if (stat(dir->d_name, &file_stat) == 0) {
             if (S_ISREG(file_stat.st_mode)) {
                 FILE *src = fopen(dir->d_name, "rb");
-                handle_file(src, dir->d_name);
+                handle_file(src, dir->d_name, dest_path);
                 fclose(src);
             }
         } else {
-            fprintf(stderr, "Error with getting info about this file: %s", dir->d_name);
+            fprintf(stderr, "Error with getting info about this file: %s \n", dir->d_name);
             continue;
         }
     }
@@ -138,11 +163,17 @@ int main(int argc, char *argv[]) {
     char new_path[name_length + path_length + 1]; //весь путь дло каталога
     get_full_path(&new_catalog_name, path_to_catalog, (char *) &new_path);
     new_path[path_length + name_length + 1] = '\0';
+
+    // тут мы создали директорию уже с правильным именем перевернутую. в нью паф лежит путь до этой новой директории. ПЛЯШЕМ ОТ НЕЁ
     create_directory(new_path);
-//  create_file("/home/freak1rget/CLionProjects/oslab3/cmake-build-debug/pmt/my.txt");
+    // мы передаем тут путь  в исходный каталог и в новый, куда будем копировать
     directory_handler(full_catalog_path, new_path);
+
+    FILE *test = fopen("/home/freak1rget/CLionProjects/oslab3/cmake-build-debug/tmp/my.txt", "r");
+    if (test != NULL) {
+        printf("ERRROR");
+    }
     free(catalog_name);
     free(path_to_catalog);
-
     return EXIT_SUCCESS;
 }
