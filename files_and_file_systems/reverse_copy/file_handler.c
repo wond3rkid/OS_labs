@@ -126,11 +126,10 @@ void reverse_copy_file_content(FILE *source, FILE *destination) {
     int fseek_flag = fseek(source, -1, SEEK_END);
     assert(fseek_flag == 0);
     long i = source_size;
-    while (i > 0) {
+    while (i > 0 && fseek_flag == 0) {
         char current_char = fgetc(source);
         fprintf(destination, "%c", current_char);
         fseek_flag = fseek(source, -2, SEEK_CUR);
-        assert(fseek_flag == 0);
         i--;
     }
 }

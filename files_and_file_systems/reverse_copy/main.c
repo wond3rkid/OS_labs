@@ -8,27 +8,26 @@
 
 int main(int argc, char **argv) {
     if (argc != 2) {
-        fprintf(stderr, "An error with input. Try again!");
+        perror("Problem with input. Try again: ");
         return EXIT_FAIL;
     }
     char *path = argv[1];
     if (!check_exist(path)) {
-        fprintf(stderr, "Input directory %s doesn't exist. \n", path);
+        perror("Inputed directory doesn't exist: ");
         return EXIT_FAIL;
     }
     char *reversed_path = NULL;
     bool dir = dir_handle_success(path, &reversed_path);
-    fprintf(stderr, "%s \n", reversed_path);
     if (!dir) {
-        fprintf(stderr, "Program executed with an error. Check console output before. Problem with directory copy. \n");
+        perror("Error with copying of directory : ");
         return EXIT_FAIL;
     }
-    fprintf(stderr, "Directory was created. Go to creating files: \n");
+    printf("Directory was created. Start creating files. \n");
     bool files = file_handler_success(path, reversed_path);
     if (!files) {
-        fprintf(stderr, "Program executed with an error. Check console output before. Problem with files copy. \n");
+        perror("Program executed with an error: ");
         return EXIT_FAIL;
     }
-    fprintf(stderr, "Files were created. Program executed without problems.\n");
+    printf("Files were created. Program executed without problems.\n");
     return EXIT_SUCCESS;
 }
