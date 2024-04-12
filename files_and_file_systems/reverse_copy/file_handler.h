@@ -11,18 +11,16 @@
 #include <sys/stat.h>
 #include <stdbool.h>
 
-#define BUFFER_SIZE 1024
-#define COPY_MORE 0644
-
 bool file_handler_success(char *source, char *destination);
 
-bool create_file_by_path(char *source, char *destination);
+bool create_file_by_path_name(char *src_path, char *src_name, char *dest_path, char *dest_name);
+
+char *get_full_path(char *path, char *name);
 
 long get_file_size(FILE *f);
 
 int do_stat(char *file_name);
 
 bool reverse_copy_file_content(FILE *source, FILE *destination);
-
 
 #endif //LAB_FILE_HANDLER_H

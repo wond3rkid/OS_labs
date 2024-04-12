@@ -38,49 +38,79 @@ char *reverse_only_name(char *file_name) {
 
 bool file_handler_success(char *source, char *destination) {
     DIR *dir_ptr = opendir(source);
-    struct dirent *direntp;
 
+    struct dirent *direntp;
     char temp_dest[strlen(destination) + 1];
     char temp_src[strlen(source) + 1];
 
     strcpy(temp_dest, destination);
     strcpy(temp_src, source);
 
-    strcat(temp_dest, "/");
-    strcat(temp_src, "/");
+    strcat(temp_dest, "/\0");
+    strcat(temp_src, "/\0");
 
     if (dir_ptr == NULL) {
         fprintf(stderr, "Cannot open directory %s for copying. \n", source);
         return false;
     }
+
     direntp = readdir(dir_ptr);
+
     while (direntp) {
-        if (do_stat(direntp->d_name) == 1) {
+        if (do_stat(direntp->d_name)) {
             char *rev_name = reverse_only_name(direntp->d_name);
-            strcat(temp_dest, rev_name);
-            strcat(temp_src, direntp->d_name);
-            bool file_created = create_file_by_path(temp_src, temp_dest);
-            free(rev_name);
-            if (!file_created) {
-                fprintf(stderr, "Error with creating or filling the file. Check logs");
+            fprintf(stderr, "rev_name: %s %lu name: %s %lu \n", rev_name, strlen(rev_name), direntp->d_name,
+                    strlen(direntp->d_name));
+            fprintf(stderr, "dest: %s src: %s \n\n", temp_dest, temp_src);
+
+            bool create = create_file_by_path_name(temp_src, direntp->d_name, temp_dest, rev_name);
+            if (!create) {
+                fprintf(stderr, "I am not okay with creating \n");
                 return false;
             }
         }
+
         direntp = readdir(dir_ptr);
     }
     return true;
 }
 
-bool create_file_by_path(char *source, char *destination) {
-    FILE *in_fd = fopen(source, "r");
-    FILE *out_fd = fopen(destination, "w");
-    char buf[BUFFER_SIZE];
+char *get_full_path(char *path, char *name) {
+    long length = strlen(path) + strlen(name);
+    char *full = malloc(sizeof(char) * length);
+    int i = 0;
+    while (i < strlen(path)) {
+        full[i] = *(path + i);
+        i++;
+    }
+    fprintf(stderr, "path length %d %ld\n", i, length);
+    int j = 0;
+    while (j < strlen(name)) {
+        full[i] = *(name + j);
+        i++;
+        j++;
+    }
 
+    fprintf(stderr, "path length %d %ld\n", j, length);
+    return full;
+}
+
+bool create_file_by_path_name(char *src_path, char *src_name, char *dest_path, char *dest_name) {
+    fprintf(stderr, "%s %s %s %s \n \n", src_path, src_name, dest_path, dest_name);
+    fprintf(stderr, "1 dest %s src %s \n", dest_path, src_path);
+
+    char *source = get_full_path(src_path, src_name);
+    char *destination = get_full_path(dest_path, dest_name);
+
+    fprintf(stderr, "\t tab bbb %s \n %s \n \n", source, destination);
+
+    FILE *in_fd = fopen(source, "r");
     if (in_fd == NULL) {
-        fprintf(stderr, "Error with opening source %s file: \n", source);
+        fprintf(stderr, "Error with opening source %s file : \n", source);
         return false;
     }
 
+    FILE *out_fd = fopen(destination, "w");
     if (out_fd == NULL) {
         fprintf(stderr, "Error with creating the file: %s \n", destination);
         return false;
@@ -88,10 +118,9 @@ bool create_file_by_path(char *source, char *destination) {
 
     bool rev_write = reverse_copy_file_content(in_fd, out_fd);
     if (!rev_write) {
-        fprintf(stderr, "Error with writing from %s to %s. \n", source, destination);
+        fprintf(stderr, "Error with writing.Check logs \n");
         return false;
     }
-
     if (!fclose(in_fd) || !fclose(out_fd)) {
         fprintf(stderr, "Error with closing files %s and %s. \n", source, destination);
         return false;
@@ -114,18 +143,18 @@ bool reverse_copy_file_content(FILE *source, FILE *destination) {
 }
 
 long get_file_size(FILE *f) {
-    fseek(f, 0, SEEK_END); // seek to end of file
-    long size = ftell(f); // get current file pointer
-    fseek(f, 0, SEEK_SET); // seek back to beginning of file
+    fseek(f, 0, SEEK_END);
+    long size = ftell(f);
+    fseek(f, 0, SEEK_SET);
     return size;
 }
 
 int do_stat(char *file_name) {
     struct stat fileInfo;
     if (stat(file_name, &fileInfo) >= 0) {
-        if (S_ISREG(fileInfo.st_mode))
+        if (S_ISREG(fileInfo.st_mode)) {
             return 1;
-        else {
+        } else {
             return 0;
         }
     }
