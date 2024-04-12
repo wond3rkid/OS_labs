@@ -1,6 +1,6 @@
 #ifndef LAB_FILE_HANDLER_H
 #define LAB_FILE_HANDLER_H
-
+#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

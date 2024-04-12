@@ -7,7 +7,8 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <dirent.h>
-#include "stdbool.h"
+#include <stdbool.h>
+#include <assert.h>
 
 int create_reversed_dir(char *path);
 

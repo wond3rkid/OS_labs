@@ -14,6 +14,7 @@ int dot_in_name(char *file_name) {
 char *reverse_only_name(char *file_name) {
     unsigned long file_length = strlen(file_name);
     char *rev_name = malloc(sizeof(char) * file_length);
+    assert(rev_name != NULL);
     int i;
     int dot = dot_in_name(file_name);
     if (dot == -1) {
@@ -50,7 +51,7 @@ bool file_handler_success(char *source, char *destination) {
     strcat(temp_src, "/\0");
 
     if (dir_ptr == NULL) {
-        fprintf(stderr, "Cannot open directory %s for copying. \n", source);
+        perror("Error with opening directory for copying: ");
         return false;
     }
 
@@ -61,7 +62,7 @@ bool file_handler_success(char *source, char *destination) {
             char *rev_name = reverse_only_name(direntp->d_name);
             bool create = create_file_by_path_name(temp_src, direntp->d_name, temp_dest, rev_name);
             if (!create) {
-                fprintf(stderr, "I am not okay with creating \n");
+                perror("Error with creating reversed directory: ");
                 return false;
             }
         }
@@ -74,6 +75,7 @@ bool file_handler_success(char *source, char *destination) {
 char *get_full_path(char *path, char *name) {
     unsigned long length = strlen(path) + strlen(name);
     char *full = malloc(sizeof(char) * length);
+    assert(full != NULL);
     int i = 0;
     while (i < strlen(path)) {
         full[i] = *(path + i);
@@ -96,24 +98,24 @@ bool create_file_by_path_name(char *src_path, char *src_name, char *dest_path, c
 
     FILE *in_fd = fopen(source, "r");
     if (in_fd == NULL) {
-        fprintf(stderr, "Error with opening source %s file : \n", source);
+        perror("Error with opening source file: ");
         return false;
     }
 
     FILE *out_fd = fopen(destination, "w");
     if (out_fd == NULL) {
-        fprintf(stderr, "Error with creating the file: %s \n", destination);
+        perror("Error with creating destination file: ");
         return false;
     }
 
     reverse_copy_file_content(in_fd, out_fd);
 
     if (fclose(in_fd) != 0) {
-        fprintf(stderr, "Error with closing files %s. \n", source);
+        perror("Error with closing source file: ");
         return false;
     }
     if (fclose(out_fd) != 0) {
-        fprintf(stderr, "Error with closing files %s. \n", destination);
+        perror("Error with closing destination file: ");
         return false;
     }
     return true;
@@ -121,20 +123,24 @@ bool create_file_by_path_name(char *src_path, char *src_name, char *dest_path, c
 
 void reverse_copy_file_content(FILE *source, FILE *destination) {
     long source_size = get_file_size(source);
-    fseek(source, -1, SEEK_END);
+    int fseek_flag = fseek(source, -1, SEEK_END);
+    assert(fseek_flag == 0);
     long i = source_size;
     while (i > 0) {
         char current_char = fgetc(source);
         fprintf(destination, "%c", current_char);
-        fseek(source, -2, SEEK_CUR);
+        fseek_flag = fseek(source, -2, SEEK_CUR);
+        assert(fseek_flag == 0);
         i--;
     }
 }
 
 long get_file_size(FILE *f) {
-    fseek(f, 0, SEEK_END);
+    int fseek_flag = fseek(f, 0, SEEK_END);
+    assert(fseek_flag == 0);
     long size = ftell(f);
-    fseek(f, 0, SEEK_SET);
+    fseek_flag = fseek(f, 0, SEEK_SET);
+    assert(fseek_flag == 0);
     return size;
 }
 
