@@ -72,7 +72,7 @@ bool file_handler_success(char *source, char *destination) {
 }
 
 char *get_full_path(char *path, char *name) {
-    long length = strlen(path) + strlen(name);
+    unsigned long length = strlen(path) + strlen(name);
     char *full = malloc(sizeof(char) * length);
     int i = 0;
     while (i < strlen(path)) {
@@ -118,7 +118,6 @@ bool create_file_by_path_name(char *src_path, char *src_name, char *dest_path, c
     }
     return true;
 }
-
 
 void reverse_copy_file_content(FILE *source, FILE *destination) {
     long source_size = get_file_size(source);

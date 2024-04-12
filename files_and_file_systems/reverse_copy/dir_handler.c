@@ -50,7 +50,6 @@ bool dir_handle_success(char *input_path, char **reversed_path) {
         fprintf(stderr, "Directory by the path %s was created successfully! \n", *reversed_path);
         return true;
     }
-
 }
 
 bool check_exist(char *reversed_path) {
