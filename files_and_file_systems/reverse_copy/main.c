@@ -30,5 +30,6 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Program executed with an error. Check console output before. Problem with files copy. \n");
         return EXIT_FAIL;
     }
+    fprintf(stderr, "Files were created. Program executed without problems.\n");
     return EXIT_SUCCESS;
 }
