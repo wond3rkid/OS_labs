@@ -59,10 +59,6 @@ bool file_handler_success(char *source, char *destination) {
     while (direntp) {
         if (do_stat(direntp->d_name)) {
             char *rev_name = reverse_only_name(direntp->d_name);
-            fprintf(stderr, "rev_name: %s %lu name: %s %lu \n", rev_name, strlen(rev_name), direntp->d_name,
-                    strlen(direntp->d_name));
-            fprintf(stderr, "dest: %s src: %s \n\n", temp_dest, temp_src);
-
             bool create = create_file_by_path_name(temp_src, direntp->d_name, temp_dest, rev_name);
             if (!create) {
                 fprintf(stderr, "I am not okay with creating \n");
@@ -83,7 +79,7 @@ char *get_full_path(char *path, char *name) {
         full[i] = *(path + i);
         i++;
     }
-    fprintf(stderr, "path length %d %ld\n", i, length);
+
     int j = 0;
     while (j < strlen(name)) {
         full[i] = *(name + j);
@@ -91,18 +87,12 @@ char *get_full_path(char *path, char *name) {
         j++;
     }
 
-    fprintf(stderr, "path length %d %ld\n", j, length);
     return full;
 }
 
 bool create_file_by_path_name(char *src_path, char *src_name, char *dest_path, char *dest_name) {
-    fprintf(stderr, "%s %s %s %s \n \n", src_path, src_name, dest_path, dest_name);
-    fprintf(stderr, "1 dest %s src %s \n", dest_path, src_path);
-
     char *source = get_full_path(src_path, src_name);
     char *destination = get_full_path(dest_path, dest_name);
-
-    fprintf(stderr, "\t tab bbb %s \n %s \n \n", source, destination);
 
     FILE *in_fd = fopen(source, "r");
     if (in_fd == NULL) {
@@ -116,20 +106,21 @@ bool create_file_by_path_name(char *src_path, char *src_name, char *dest_path, c
         return false;
     }
 
-    bool rev_write = reverse_copy_file_content(in_fd, out_fd);
-    if (!rev_write) {
-        fprintf(stderr, "Error with writing.Check logs \n");
+    reverse_copy_file_content(in_fd, out_fd);
+
+    if (fclose(in_fd) != 0) {
+        fprintf(stderr, "Error with closing files %s. \n", source);
         return false;
     }
-    if (!fclose(in_fd) || !fclose(out_fd)) {
-        fprintf(stderr, "Error with closing files %s and %s. \n", source, destination);
+    if (fclose(out_fd) != 0) {
+        fprintf(stderr, "Error with closing files %s. \n", destination);
         return false;
     }
     return true;
 }
 
 
-bool reverse_copy_file_content(FILE *source, FILE *destination) {
+void reverse_copy_file_content(FILE *source, FILE *destination) {
     long source_size = get_file_size(source);
     fseek(source, -1, SEEK_END);
     long i = source_size;
@@ -139,7 +130,6 @@ bool reverse_copy_file_content(FILE *source, FILE *destination) {
         fseek(source, -2, SEEK_CUR);
         i--;
     }
-    return true;
 }
 
 long get_file_size(FILE *f) {
