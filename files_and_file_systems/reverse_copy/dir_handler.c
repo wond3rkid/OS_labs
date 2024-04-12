@@ -3,9 +3,14 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <dirent.h>
 #include "dir_handler.h"
 
-bool create_reversed_dir(char *path) {
+int create_reversed_dir(char *path) {
+    if (check_exist(path)) {
+        fprintf(stderr, "The directory by path: %s already exists. \n", path);
+        return -1;
+    }
     return mkdir(path, 0700);
 }
 
@@ -43,11 +48,22 @@ bool dir_handle_success(char *input_path, char **reversed_path) {
     }
     char *reversed_path_ptr = get_reversed_path(input_path, path_length, last_slash);
     *reversed_path = reversed_path_ptr;
-    bool mkdir_flag = create_reversed_dir(*reversed_path);
+    int mkdir_flag = create_reversed_dir(*reversed_path);
     if (mkdir_flag != 0) {
-        fprintf(stderr, "Directory wasn't created: Here is the reason: %d \n", errno);
+        fprintf(stderr, "Directory wasn't created: Here is the errno: %d \n", errno);
         return false;
+    } else {
+        fprintf(stderr, "Directory by the path %s was created successfully! \n", *reversed_path);
+        return true;
     }
-    fprintf(stderr, "Directory by the path %s was created successfully! \n", *reversed_path);
-    return true;
+
+}
+
+bool check_exist(char *reversed_path) {
+    DIR *dir = opendir(reversed_path);
+    if (dir) {
+        closedir(dir);
+        return true;
+    }
+    return false;
 }
