@@ -1,9 +1,3 @@
-#include <string.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/stat.h>
-#include <errno.h>
-#include <dirent.h>
 #include "dir_handler.h"
 
 int create_reversed_dir(char *path) {
