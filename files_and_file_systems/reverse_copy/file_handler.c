@@ -39,7 +39,10 @@ char *reverse_only_name(char *file_name) {
 
 bool file_handler_success(char *source, char *destination) {
     DIR *dir_ptr = opendir(source);
-
+    if (dir_ptr == NULL) {
+        perror("Error with opening directory for copying: ");
+        return false;
+    }
     struct dirent *direntp;
     char temp_dest[strlen(destination) + 1];
     char temp_src[strlen(source) + 1];
@@ -49,11 +52,6 @@ bool file_handler_success(char *source, char *destination) {
 
     strcat(temp_dest, "/\0");
     strcat(temp_src, "/\0");
-
-    if (dir_ptr == NULL) {
-        perror("Error with opening directory for copying: ");
-        return false;
-    }
 
     direntp = readdir(dir_ptr);
 
