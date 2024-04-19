@@ -8,6 +8,10 @@
 #include <stdbool.h>
 #include <sys/stat.h>
 #include <stdio.h>
+#include <fcntl.h>
+#include <stdlib.h>
+
+#define BUFFER_SIZE 1024
 
 bool mkdir_cmd(char *path);
 

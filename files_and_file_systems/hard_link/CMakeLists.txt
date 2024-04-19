@@ -6,4 +6,6 @@ set(CMAKE_C_STANDARD 11)
 add_executable(hard_link
         main.c
         file_dir_handler.h
-        file_dir_handler.c)
+        file_dir_handler.c
+        links_handler.c
+        links_handler.h)

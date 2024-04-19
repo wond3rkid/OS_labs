@@ -1,8 +1,4 @@
-#include <fcntl.h>
-#include <stdlib.h>
 #include "file_dir_handler.h"
-
-#define BUFFER_SIZE 1024
 
 bool mkdir_cmd(char *path) {
     printf("Creating directory by name : %s. \n", path);
@@ -161,7 +157,7 @@ bool rmfile_cmd(char *path) {
 
 bool ls_la_cmd(char *path) {
     struct stat file_stat;
-    if (stat(path, &file_stat) == - 1) {
+    if (stat(path, &file_stat) == -1) {
         perror("Error with stat");
         return false;
     }
@@ -174,7 +170,7 @@ bool chmod_cmd(char *path) {
     mode_t new_mode;
     char mode_str[10];
     //ls_la_cmd(path);
-    if (stat(path, &file_stat) == - 1) {
+    if (stat(path, &file_stat) == -1) {
         perror("Error with stat");
         return false;
     }
