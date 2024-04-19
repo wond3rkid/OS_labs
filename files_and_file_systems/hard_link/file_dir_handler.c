@@ -1,4 +1,5 @@
 #include <fcntl.h>
+#include <stdlib.h>
 #include "file_dir_handler.h"
 
 #define BUFFER_SIZE 1024
@@ -157,3 +158,38 @@ bool rmfile_cmd(char *path) {
     }
     return false;
 }
+
+bool ls_la_cmd(char *path) {
+    struct stat file_stat;
+    if (stat(path, &file_stat) == - 1) {
+        perror("Error with stat");
+        return false;
+    }
+    printf("Access rights: %o \nLinks count: %ld.\n", file_stat.st_mode, file_stat.st_nlink);
+    return true;
+}
+
+bool chmod_cmd(char *path) {
+    struct stat file_stat;
+    mode_t new_mode;
+    char mode_str[10];
+    //ls_la_cmd(path);
+    if (stat(path, &file_stat) == - 1) {
+        perror("Error with stat");
+        return false;
+    }
+    printf("Enter the new permissions in octal format: \n");
+    if (scanf("%9s", mode_str) != 1) {
+        perror("Error when entering new access rights:");
+        return false;
+    }
+    new_mode = strtol(mode_str, NULL, 8);
+    if (chmod(path, new_mode) == -1) {
+        perror("chmod");
+        return false;
+    }
+    //ls_la_cmd(path);
+    printf("File %s permissions changed to %o\n", path, new_mode);
+    return true;
+}
+

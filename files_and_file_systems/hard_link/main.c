@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
 //    switch (char cmd) {
 //        case :
 //    }
-    char *test_path = "/home/freak1rget/CLionProjects/OS_labs/files_and_file_systems/hard_link/cmake-build-debug/tmp.txt";
-    printf("\n %s \n", btoa(rmfile_cmd(test_path)));
+    char *test_path = "/home/freak1rget/CLionProjects/OS_labs/files_and_file_systems/hard_link/main.c";
+    printf("\n %s \n", btoa(chmod_cmd(test_path)));
     return EXIT_SUCCESS;
 }

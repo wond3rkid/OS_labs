@@ -21,6 +21,12 @@ bool touch_cmd(char *path);
 
 bool cat_file(char *path);
 
+bool check_file_exist(char *path);
+
 bool rmfile_cmd(char *path);
+
+bool ls_la_cmd(char *path);
+
+bool chmod_cmd(char *path);
 
 #endif //HARD_LINK_FILE_DIR_HANDLER_H
