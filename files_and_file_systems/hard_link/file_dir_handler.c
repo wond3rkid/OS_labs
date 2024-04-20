@@ -79,7 +79,6 @@ bool rmdir_cmd(char *path) {
             free(full_path);
             continue;
         }
-
         if (unlink(full_path) == 0) {
             printf("The file %s was removed.\n", full_path);
         } else {

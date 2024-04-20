@@ -1,4 +1,3 @@
-#include <assert.h>
 #include "links_handler.h"
 
 char *create_symlink(char *link) {
@@ -45,7 +44,7 @@ bool get_file_symlink(char *link) {
 bool delete_symlink(char *link) {
     int status = unlink(link);
     if (status != 0) {
-        perror("Error with delete link: ");
+        perror("Error with delete link");
         return false;
     }
     return true;
@@ -67,7 +66,7 @@ bool create_hardlink(char *path) {
 bool delete_hardlink(char *link) {
     int status = unlink(link);
     if (status != 0) {
-        perror("Error with delete link: ");
+        perror("Error with delete link");
         return false;
     }
     return true;

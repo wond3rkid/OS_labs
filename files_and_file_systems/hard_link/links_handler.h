@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <sys/stat.h>
 #include <stdio.h>
+#include <assert.h>
 
 char *create_symlink(char *link);
 

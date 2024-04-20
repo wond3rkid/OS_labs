@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
     printf("You have to input your command and argument! \n\n");
 
     if (argc != 3) {
-        perror("Error with input, try again");
+        fprintf(stderr, "Error with input, try again");
         return EXIT_FAILED;
     }
     char cmd = *argv[1];
