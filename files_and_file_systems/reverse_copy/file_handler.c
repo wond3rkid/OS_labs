@@ -63,9 +63,14 @@ bool file_handler_success(char *source, char *destination) {
                 perror("Error with creating reversed directory: ");
                 return false;
             }
+            free(rev_name);
         }
 
         direntp = readdir(dir_ptr);
+    }
+    if (closedir(dir_ptr) == -1){
+        perror("Error with close");
+        return false;
     }
     return true;
 }
@@ -107,15 +112,17 @@ bool create_file_by_path_name(char *src_path, char *src_name, char *dest_path, c
     }
 
     reverse_copy_file_content(in_fd, out_fd);
-
+    free(source);
+    free(destination);
     if (fclose(in_fd) != 0) {
-        perror("Error with closing source file: ");
+        perror("Error with closing source file");
         return false;
     }
     if (fclose(out_fd) != 0) {
-        perror("Error with closing destination file: ");
+        perror("Error with closing destination file");
         return false;
     }
+
     return true;
 }
 
@@ -149,5 +156,8 @@ int do_stat(char *file_name) {
         } else {
             return 0;
         }
+    } else {
+        perror("Stat");
+        return 0;
     }
 }

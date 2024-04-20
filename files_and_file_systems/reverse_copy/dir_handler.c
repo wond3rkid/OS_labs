@@ -33,6 +33,7 @@ char *get_reversed_path(const char *input_path, unsigned long path_length, unsig
         perror("Reversed path wasn't created: ");
         exit(1);
     }
+    free(reversed_dir_name);
     return reversed_path;
 }
 
@@ -45,6 +46,7 @@ bool dir_handle_success(char *input_path, char **reversed_path) {
     char *reversed_path_ptr = get_reversed_path(input_path, path_length, last_slash);
     *reversed_path = reversed_path_ptr;
     int mkdir_flag = create_reversed_dir(*reversed_path);
+    free(reversed_path_ptr);
     if (mkdir_flag != 0) {
         perror("Directory wasn't created: ");
         return false;
@@ -60,5 +62,6 @@ bool check_exist(char *reversed_path) {
         closedir(dir);
         return true;
     }
+    perror("Dir wasn't opened");
     return false;
 }
