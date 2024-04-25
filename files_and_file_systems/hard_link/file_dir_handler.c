@@ -3,26 +3,29 @@
 bool mkdir_cmd(char *path) {
     printf("Creating directory by name : %s. \n", path);
     if (check_dir_exist(path)) {
-        perror("Try to create another dir.\n");
+        fprintf(stderr, "Try to create another dir.\n");
         return false;
     }
     int status = mkdir(path, 0700);
     printf("Status of creating directory: %d", status);
-    return status == -1 ? 1 : 0;
+    return status == -1 ? false : true;
 }
 
 
 bool check_dir_exist(char *path) {
     printf("Trying to check if directory already exist: \n");
     DIR *dir = opendir(path);
+    bool exist = false;
     if (dir) {
-        printf("Directory already exists. ");
-        int status = closedir(dir);
-        printf("Status of closing dir : %d.\n", status);
-        return status == 0 ? true : false;
+        printf("Directory already exists. \n");
+        exist = true;
     }
-    printf("Directory didn't exist.\n");
-    return false;
+    printf("Directory didn't exist. \n");
+    int close = closedir(dir);
+    if (!close) {
+        perror("Problem with closing directory");
+    }
+    return exist;
 }
 
 
@@ -54,16 +57,15 @@ bool rmdir_cmd(char *path) {
     stat(path, &stat_path);
 
     if (S_ISDIR(stat_path.st_mode) == 0) {
-        perror("This path is not dir. \n");
+        fprintf(stderr, "This path %s is not dir. \n", path);
         return false;
     }
-    if ((dir = opendir(path)) == NULL) {
+    dir = opendir(path);
+    if (dir == NULL) {
         perror("Directory couldn't be opened.");
         return false;
     }
-
     path_length = strlen(path);
-
     while ((entry = readdir(dir)) != NULL) {
         if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, "..")) {
             continue;
@@ -94,22 +96,26 @@ bool rmdir_cmd(char *path) {
     } else {
         printf("Directory %s was deleted successfully! \n", path);
     }
-    int close = closedir(path);
+    int close = closedir((DIR *) path);
+    if (!close) {
+        perror("Error with closing directory.");
+    }
     return (rm + close) == 0 ? true : false;
 }
 
 bool check_file_exist(char *path) {
     if (access(path, F_OK) == 0) {
-        perror("File is already exist");
+        fprintf(stderr, "File is already exist. \n");
         return true;
     }
     return false;
 }
 
-bool touch_cmd(char *path) {
+bool
+touch_cmd(char *path) {
     FILE *file = NULL;
     if (check_file_exist(path)) {
-        perror("File is already exist");
+        fprintf(stderr, "Create another file, not a %s. \n", path);
         return false;
     }
     file = fopen(path, "a");
@@ -133,8 +139,8 @@ bool cat_file(char *path) {
     while ((read_size = read(file, buffer, BUFFER_SIZE)) > 0) {
         write(1, &buffer, read_size);
     }
-    int status = close(file);
-    if (status != 0) {
+    int close_f = close(file);
+    if (close_f != 0) {
         perror("Error with close file");
         return false;
     }
@@ -144,7 +150,7 @@ bool cat_file(char *path) {
 
 bool rmfile_cmd(char *path) {
     if (!check_file_exist(path)) {
-        perror("File doesn't exist");
+        fprintf(stderr, "File %s doesn't exist. \n", path);
         return false;
     }
     int status = remove(path);
@@ -168,14 +174,13 @@ bool chmod_cmd(char *path) {
     struct stat file_stat;
     mode_t new_mode;
     char mode_str[10];
-    //ls_la_cmd(path);
     if (stat(path, &file_stat) == -1) {
         perror("Error with stat");
         return false;
     }
     printf("Enter the new permissions in octal format: \n");
     if (scanf("%9s", mode_str) != 1) {
-        perror("Error when entering new access rights:");
+        perror("Error when entering new access rights");
         return false;
     }
     new_mode = strtol(mode_str, NULL, 8);
@@ -183,7 +188,6 @@ bool chmod_cmd(char *path) {
         perror("chmod");
         return false;
     }
-    //ls_la_cmd(path);
     printf("File %s permissions changed to %o\n", path, new_mode);
     return true;
 }

@@ -10,10 +10,8 @@ int main(int argc, char *argv[]) {
     printf("List of supported commands: \na - mkdir \nb - ls\nc - rmdir \n");
     printf("d - touch \ne - cat \nf - rm file \ng - create symlink \nh - get symlink \ni - cat symlink file \nj - rm symlink \nk - create hardlink \n");
     printf("l - delete hardlink \nm - get info about file\nn - change rights\n");
-    printf("You have to input your command and argument! \n\n");
-
     if (argc != 3) {
-        fprintf(stderr, "Error with input, try again");
+        fprintf(stderr, "Error with input, try again. \n");
         return EXIT_FAILED;
     }
     char cmd = *argv[1];
@@ -64,9 +62,8 @@ int main(int argc, char *argv[]) {
             break;
         default:
             status = false;
-            perror("Error with input");
+            fprintf(stderr, "Error with input. The command %c doesn't exist.\n", cmd);
             return EXIT_FAILED;
     }
-
     return status == true ? EXIT_SUCCESS : EXIT_FAILED;
 }

@@ -5,12 +5,12 @@ char *create_symlink(char *link) {
     assert(new_link != NULL);
     strcpy(new_link, link);
     if (access(new_link, F_OK) == 0) {
-        perror("File already exists: ");
+        fprintf(stderr, "File by name %s already exists. No symlink to create. \n", new_link);
         free(new_link);
         return NULL;
     }
     if (symlink(link, new_link) == -1) {
-        perror("Error with symlink");
+        perror("Error with symlink. Terminated");
         free(new_link);
         return NULL;
     }
@@ -21,7 +21,7 @@ char *create_symlink(char *link) {
 char *get_symlink(char *link) {
     long path_max = pathconf(link, _PC_PATH_MAX);
     if (path_max == -1) {
-        perror("Error getting pathconf");
+        perror("Pathconf wasn't got");
         return NULL;
     }
     char *target_path = malloc(path_max + 1);
@@ -56,7 +56,7 @@ bool create_hardlink(char *path) {
     snprintf(link_path, sizeof(link_path), "hardlink_%u", path_hash);
 
     if (link(path, link_path) == -1) {
-        perror("Error creating hard link");
+        perror("Hard link wasn't created");
         return false;
     }
     printf("Hard link created: %s -> %s\n", link_path, path);
