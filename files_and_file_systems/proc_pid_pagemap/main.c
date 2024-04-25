@@ -12,7 +12,7 @@ void pagemap_reader() {
 
 int main(int argc, char **argv) {
     if (argc != 2) {
-        perror("Invalid arguments count");
+        fprintf(stderr, "Invalid arguments count");
         return EXIT_FAILURE;
     }
     int pid;
@@ -20,11 +20,13 @@ int main(int argc, char **argv) {
         pid = getpid();
         printf("%d\n", pid);
     } else if (atoi(argv[1]) < 0) {
-        perror("Invalid pid, cannot be less than zero");
+        fprintf(stderr, "Invalid pid, cannot be less than zero");
         return EXIT_FAILURE;
     } else {
         pid = atoi(argv[1]);
         printf("%d\n", pid);
     }
+
+
     return EXIT_SUCCESS;
 }
