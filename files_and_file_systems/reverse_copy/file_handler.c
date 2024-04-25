@@ -40,7 +40,7 @@ char *reverse_only_name(char *file_name) {
 bool file_handler_success(char *source, char *destination) {
     DIR *dir_ptr = opendir(source);
     if (dir_ptr == NULL) {
-        perror("Error with opening directory for copying: ");
+        perror("Error with opening directory for copying");
         return false;
     }
     struct dirent *direntp;
@@ -60,7 +60,7 @@ bool file_handler_success(char *source, char *destination) {
             char *rev_name = reverse_only_name(direntp->d_name);
             bool create = create_file_by_path_name(temp_src, direntp->d_name, temp_dest, rev_name);
             if (!create) {
-                perror("Error with creating reversed directory: ");
+                fprintf(stderr, "Error with creating reversed directory: ");
                 return false;
             }
             free(rev_name);
@@ -101,13 +101,13 @@ bool create_file_by_path_name(char *src_path, char *src_name, char *dest_path, c
 
     FILE *in_fd = fopen(source, "r");
     if (in_fd == NULL) {
-        perror("Error with opening source file: ");
+        perror("Error with opening source file");
         return false;
     }
 
     FILE *out_fd = fopen(destination, "w");
     if (out_fd == NULL) {
-        perror("Error with creating destination file: ");
+        perror("Error with creating destination file");
         return false;
     }
 

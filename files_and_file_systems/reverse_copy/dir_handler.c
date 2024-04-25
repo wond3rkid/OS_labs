@@ -2,7 +2,7 @@
 
 int create_reversed_dir(char *path) {
     if (check_exist(path)) {
-        perror("The directory by inputed path already exists. Terminate program : ");
+        printf("The directory by this path already exists. Terminate program");
         return -1;
     }
     return mkdir(path, 0700);
@@ -30,7 +30,7 @@ char *get_reversed_path(const char *input_path, unsigned long path_length, unsig
         j += 1;
     }
     if (strlen(reversed_path) != path_length) {
-        perror("Reversed path wasn't created: ");
+        fprintf(stderr, "Reversed path wasn't created");
         exit(1);
     }
     free(reversed_dir_name);
@@ -48,7 +48,7 @@ bool dir_handle_success(char *input_path, char **reversed_path) {
     int mkdir_flag = create_reversed_dir(*reversed_path);
     free(reversed_path_ptr);
     if (mkdir_flag != 0) {
-        perror("Directory wasn't created: ");
+        fprintf(stderr, "Directory wasn't created");
         return false;
     } else {
         printf("Directory by the path %s was created successfully! \n", *reversed_path);
@@ -61,7 +61,8 @@ bool check_exist(char *reversed_path) {
     if (dir) {
         closedir(dir);
         return true;
+    } else {
+        perror("Dir wasn't opened");
+        return false;
     }
-    perror("Dir wasn't opened");
-    return false;
 }
