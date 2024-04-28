@@ -2,6 +2,7 @@
 #include <malloc.h>
 #include <string.h>
 #include <assert.h>
+#include <stdlib.h>
 
 int global_int = 10;
 int global_var;
@@ -77,12 +78,21 @@ void buffer_address() {
     free(new_buffer);
 }
 
+void env_variable() {
+    char *my_env = "my env variable";
+    setenv(my_env, "my env variable", 1);
+    printf("env variable current  : %s \n", getenv(my_env));
+    setenv(my_env, "my new env variable", 1);
+    printf("env variable current  : %s\n", getenv(my_env));
+}
+
 int main() {
     print_locals();
     print_statics();
     print_constants();
     print_globals();
-    printf("Variable address in main: %p \n", (void *) variable_address());
+    printf("Variable address in main: %p \n\n", (void *) variable_address());
     //buffer_address(); // there is a problem with free in func have to be checked
+    env_variable();
     return 0;
 }
