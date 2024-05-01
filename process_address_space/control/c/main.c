@@ -39,7 +39,7 @@ void create_add() {
     }
     printf("Mapped a region at address %p with size %zu bytes. \n", region_addr, region_size);
     sleep(10);
-    printf("Unmapping region \n");
+    printf("Unmapping region. \n");
     if (munmap(region_addr, region_size) == -1) {
         perror("munmap");
         exit(1);
@@ -119,13 +119,42 @@ void create_add_change_handled() {
     }
 }
 
+void create_add_part() {
+    size_t region_size = 10 * PAGE_SIZE;
+    printf("Create new region address. \n");
+    void *region_addr = mmap(NULL, region_size, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+    if (region_addr == MAP_FAILED) {
+        perror("mmap");
+        exit(1);
+    }
+    printf("Mapped a region at address %p with size %zu bytes. \n", region_addr, region_size);
+    sleep(10);
+
+    size_t partial_size = 3 * PAGE_SIZE;
+    void *partial_addr = region_addr + 3 * PAGE_SIZE;
+    printf("Unmapping a part of the region at addr %p with size %zu bytes. \n", partial_addr, partial_size);
+    if (munmap(partial_addr, partial_size) == -1) {
+        perror("munmap");
+        exit(1);
+    }
+    sleep(10);
+
+    printf("Unmapping the remaining part of the region. \n");
+    if (munmap(region_addr, region_size) == -1) {
+        perror("munmap");
+        exit(1);
+    }
+    sleep(10);
+}
+
 int main() {
     printf("My pid: %d \n", getpid());
     sleep(20);
-    resursive_stack_array();
-    //heap_array_while();
-    create_add();
-    create_add_change();
-    create_add_change_handled();
+//    resursive_stack_array();
+//    heap_array_while();
+//    create_add();
+//    create_add_change();
+//    create_add_change_handled();
+    create_add_part();
     return 0;
 }
