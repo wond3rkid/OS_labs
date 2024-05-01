@@ -2,7 +2,6 @@
 #include <unistd.h>
 
 int main() {
-
     printf("My pid is %d \n", getpid());
     sleep(1);
     execvp("./main", NULL);
