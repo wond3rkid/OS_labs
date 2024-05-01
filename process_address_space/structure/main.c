@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+#include <assert.h>
 
 int global_int = 10;
 int global_var;
@@ -56,6 +58,33 @@ int *variable_address() {
     return &a;
 }
 
+void buffer_address() {
+    char *buffer = malloc(sizeof(char) * 100);
+    assert(buffer != NULL);
+    strcpy(buffer, "hello world, i like os");
+    printf("String in first buffer before free: %s \n", buffer);
+    free(buffer);
+    printf("String in first buffer after free: %s \n", buffer);
+
+    char *new_buffer = malloc(sizeof(char) * 100);
+    strcpy(new_buffer, "have a good day, if u like os veryveryveryvery much and i hope u 2");
+    printf("String in second buffer before free: %s \n", new_buffer);
+
+    char *middle_buffer = (new_buffer + 50);
+
+    printf("Content from the start of the second buffer: %s \n", new_buffer);
+    printf("Content in the middle of the second buffer: %s \n", middle_buffer);
+    free(middle_buffer);
+    printf("Content from the start of the second buffer after free: %s \n", new_buffer);
+    free(new_buffer);
+}
+
+void env_varible() {
+    printf("Environment variable value: %s\n", getenv("MY_VAR"));
+    setenv("MY_VAR", "i hope u love os, too", 1);
+    printf("New environment variable value: %s\n", getenv("MY_VAR"));
+}
+
 int main() {
     pid_t pid = getpid();
     printf("PID of this process : %d \n\n", pid);
@@ -67,5 +96,10 @@ int main() {
     sleep(10); // для вывода proc/pid/maps
 
     printf("Variable address in main: %p \n\n", (void *) variable_address());
+    sleep(10);
+
+    //buffer_address();
+    //sleep(10);
+    env_varible();
     return 0;
 }
