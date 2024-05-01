@@ -49,13 +49,23 @@ void print_globals() {
     printf("int 'global_const' and its address: %p \n\n", (void *) &global_const);
 }
 
+
+int *variable_address() {
+    int a = 10;
+    printf("Variable address in func: %p \n", (void *) &a);
+    return &a;
+}
+
 int main() {
     pid_t pid = getpid();
     printf("PID of this process : %d \n\n", pid);
+
     print_locals();
     print_statics();
     print_constants();
     print_globals();
-    sleep(100); // для вывода proc/pid/maps
+    sleep(10); // для вывода proc/pid/maps
+
+    printf("Variable address in main: %p \n\n", (void *) variable_address());
     return 0;
 }
