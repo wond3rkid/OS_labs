@@ -8,16 +8,12 @@
 
 int main(int argc, char **argv) {
     if (argc != 2) {
-        fprintf(stderr, "Problem with input. Try again: ");
+        fprintf(stderr, "No arguments or too few arguments. Restart program and write the dir path.");
         return EXIT_FAIL;
     }
     char *path = argv[1];
-    if (!check_exist(path)) {
-        return EXIT_FAIL;
-    }
-    char *reversed_path = NULL;
-    bool dir = dir_handle_success(path, &reversed_path);
-    if (!dir) {
+    char *reversed_path = dir_handle_success(path);
+    if (reversed_path == NULL) {
         return EXIT_FAIL;
     }
     printf("Directory was created. Start creating files. \n");

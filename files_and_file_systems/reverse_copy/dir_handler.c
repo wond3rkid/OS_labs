@@ -37,32 +37,38 @@ char *get_reversed_path(const char *input_path, unsigned long path_length, unsig
     return reversed_path;
 }
 
-bool dir_handle_success(char *input_path, char **reversed_path) {
+char *dir_handle_success(char *input_path) {
+    char *reversed_path;
     unsigned long last_slash = strlen(input_path);
     const unsigned long path_length = strlen(input_path);
     while (*(input_path + last_slash) != '/') {
         last_slash--;
     }
-    char *reversed_path_ptr = get_reversed_path(input_path, path_length, last_slash);
-    *reversed_path = reversed_path_ptr;
-    int mkdir_flag = create_reversed_dir(*reversed_path);
-    free(reversed_path_ptr);
+    reversed_path = get_reversed_path(input_path, path_length, last_slash);
+
+    int mkdir_flag = create_reversed_dir(reversed_path);
     if (mkdir_flag != 0) {
         fprintf(stderr, "Directory wasn't created");
-        return false;
+        return NULL;
     } else {
-        printf("Directory by the path %s was created successfully! \n", *reversed_path);
-        return true;
+        printf("Directory by the path %s was created successfully! \n", reversed_path);
+        return reversed_path;
     }
 }
 
 bool check_exist(char *reversed_path) {
+    printf("Trying to check if directory already exist: \n");
     DIR *dir = opendir(reversed_path);
+    bool exist = false;
     if (dir) {
-        closedir(dir);
-        return true;
+        printf("Directory already exists. \n");
+        exist = true;
+        int close = closedir(dir);
+        if (close == -1) {
+            printf("Problem with closing directory. \n");
+        }
     } else {
-        perror("Dir wasn't opened");
-        return false;
+        printf("Directory didn't exist. \n");
     }
+    return exist;
 }

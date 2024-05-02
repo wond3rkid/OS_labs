@@ -13,7 +13,7 @@ int dot_in_name(char *file_name) {
 
 char *reverse_only_name(char *file_name) {
     unsigned long file_length = strlen(file_name);
-    char *rev_name = malloc(sizeof(char) * file_length);
+    char *rev_name = calloc(sizeof(char), file_length);
     assert(rev_name != NULL);
     int i;
     int dot = dot_in_name(file_name);
@@ -43,32 +43,33 @@ bool file_handler_success(char *source, char *destination) {
         perror("Error with opening directory for copying");
         return false;
     }
-    struct dirent *direntp;
-    char temp_dest[strlen(destination) + 1];
-    char temp_src[strlen(source) + 1];
-
+    struct dirent *direntp = NULL;
+    char *temp_dest = calloc(sizeof(char), strlen(destination) + 1);
+    char *temp_src = calloc(sizeof(char), strlen(source) + 1);
     strcpy(temp_dest, destination);
     strcpy(temp_src, source);
-
     strcat(temp_dest, "/\0");
     strcat(temp_src, "/\0");
-
-    direntp = readdir(dir_ptr);
-
-    while (direntp) {
-        if (do_stat(direntp->d_name)) {
+    struct stat dirent_stat;
+    while ((direntp = readdir(dir_ptr)) != NULL) {
+        char *full_path = calloc(strlen(destination) + 1 + strlen(direntp->d_name), sizeof(char));
+        assert(full_path != NULL);
+        strcpy(full_path, source);
+        strcat(full_path, "/");
+        strcat(full_path, direntp->d_name);
+        stat(full_path, &dirent_stat);
+        if (S_ISREG(dirent_stat.st_mode) != 0) {
             char *rev_name = reverse_only_name(direntp->d_name);
             bool create = create_file_by_path_name(temp_src, direntp->d_name, temp_dest, rev_name);
             if (!create) {
                 fprintf(stderr, "Error with creating reversed directory: ");
                 return false;
             }
+            free(full_path);
             free(rev_name);
         }
-
-        direntp = readdir(dir_ptr);
     }
-    if (closedir(dir_ptr) == -1){
+    if (closedir(dir_ptr) == -1) {
         perror("Error with close");
         return false;
     }
@@ -77,28 +78,25 @@ bool file_handler_success(char *source, char *destination) {
 
 char *get_full_path(char *path, char *name) {
     unsigned long length = strlen(path) + strlen(name);
-    char *full = malloc(sizeof(char) * length);
+    char *full = calloc(sizeof(char), length);
     assert(full != NULL);
     int i = 0;
     while (i < strlen(path)) {
         full[i] = *(path + i);
         i++;
     }
-
     int j = 0;
     while (j < strlen(name)) {
         full[i] = *(name + j);
         i++;
         j++;
     }
-
     return full;
 }
 
 bool create_file_by_path_name(char *src_path, char *src_name, char *dest_path, char *dest_name) {
     char *source = get_full_path(src_path, src_name);
     char *destination = get_full_path(dest_path, dest_name);
-
     FILE *in_fd = fopen(source, "r");
     if (in_fd == NULL) {
         perror("Error with opening source file");
@@ -146,18 +144,4 @@ long get_file_size(FILE *f) {
     fseek_flag = fseek(f, 0, SEEK_SET);
     assert(fseek_flag == 0);
     return size;
-}
-
-int do_stat(char *file_name) {
-    struct stat fileInfo;
-    if (stat(file_name, &fileInfo) >= 0) {
-        if (S_ISREG(fileInfo.st_mode)) {
-            return 1;
-        } else {
-            return 0;
-        }
-    } else {
-        perror("Stat");
-        return 0;
-    }
 }

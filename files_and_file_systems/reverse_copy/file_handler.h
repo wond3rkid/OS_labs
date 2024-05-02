@@ -19,8 +19,6 @@ char *get_full_path(char *path, char *name);
 
 long get_file_size(FILE *f);
 
-int do_stat(char *file_name);
-
 void reverse_copy_file_content(FILE *source, FILE *destination);
 
 #endif //LAB_FILE_HANDLER_H
