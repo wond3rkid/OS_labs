@@ -9,7 +9,7 @@
 #define PAGE_SIZE sysconf(_SC_PAGESIZE)
 
 void handle_sigsegv() {
-    printf("Received SIGSEGV signal. Terminated with 1. \n");
+    write(stdout, "Received SIGSEGV signal.",, 24);
     exit(1);
 }
 
