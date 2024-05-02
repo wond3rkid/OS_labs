@@ -11,7 +11,6 @@ bool mkdir_cmd(char *path) {
     return status == -1 ? false : true;
 }
 
-
 bool check_dir_exist(char *path) {
     printf("Trying to check if directory already exist: \n");
     DIR *dir = opendir(path);
@@ -19,33 +18,34 @@ bool check_dir_exist(char *path) {
     if (dir) {
         printf("Directory already exists. \n");
         exist = true;
-    }
-    printf("Directory didn't exist. \n");
-    int close = closedir(dir);
-    if (!close) {
-        perror("Problem with closing directory");
+        int close = closedir(dir);
+        if (close == -1) {
+            printf("Problem with closing directory. \n");
+        }
+    } else {
+        printf("Directory didn't exist. \n");
     }
     return exist;
 }
-
 
 bool ls_cmd(char *path) {
     printf("Getting the list of files from path: \n");
     DIR *d;
     struct dirent *dir;
     d = opendir(path);
-    if (d) {
+    if (d != NULL) {
         while ((dir = readdir(d)) != NULL) {
             printf("%s\n", dir->d_name);
         }
-        closedir(d);
+        if (!closedir(d)) {
+            printf("WARNING: directory wasn't closed. \n");
+        }
     } else {
         perror("Directory by path %s wasn't opened");
         return false;
     }
     return true;
 }
-
 
 bool rmdir_cmd(char *path) {
     printf("Trying to delete dir by path: %s \n", path);
