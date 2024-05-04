@@ -1,0 +1,3 @@
+/home/freak1rget/CLionProjects/OS_labs/files_and_file_systems/proc_pid_pagemap/cmake-build-debug/CMakeFiles/proc_pid_pagemap.dir
+/home/freak1rget/CLionProjects/OS_labs/files_and_file_systems/proc_pid_pagemap/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/freak1rget/CLionProjects/OS_labs/files_and_file_systems/proc_pid_pagemap/cmake-build-debug/CMakeFiles/rebuild_cache.dir

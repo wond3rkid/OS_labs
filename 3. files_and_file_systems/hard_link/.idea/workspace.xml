@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated />
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="6c72f26f-a65a-48de-b7a8-c94a766fbc6a" name="Changes" comment="3.2 Исправила makedir, сделала интерфейс более user-friendly">
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/WORK/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HOWTOTEST.md" beforeDir="false" afterPath="$PROJECT_DIR$/HOWTOTEST.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_dir_handler.c" beforeDir="false" afterPath="$PROJECT_DIR$/WORK/file_dir_handler.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_dir_handler.h" beforeDir="false" afterPath="$PROJECT_DIR$/WORK/file_dir_handler.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/links_handler.c" beforeDir="false" afterPath="$PROJECT_DIR$/WORK/links_handler.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/links_handler.h" beforeDir="false" afterPath="$PROJECT_DIR$/WORK/links_handler.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/WORK/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../proc_pid_pagemap/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/../proc_pid_pagemap/main.c" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;savilovaae&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/savilovaae/OS_labs.git&quot;,
+    &quot;accountId&quot;: &quot;8d080814-ad4b-4f86-8321-6944086d4df9&quot;
+  }
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/main.c" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2023" />
+    <option name="minorVersion" value="3.4" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2fKL9DcRhxmoqf4pcsEaQJcQjh7" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "CMake Application.hard_link.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/freak1rget/CLionProjects/OS_labs/files_and_file_systems/hard_link/TESTS",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/TESTS" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/WORK" />
+      <recent name="$PROJECT_DIR$/cmake-build-debug" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6c72f26f-a65a-48de-b7a8-c94a766fbc6a" name="Changes" comment="" />
+      <created>1713544669114</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1713544669114</updated>
+      <workItem from="1713544670157" duration="12804000" />
+      <workItem from="1713557665643" duration="11000" />
+      <workItem from="1713586154465" duration="5161000" />
+      <workItem from="1714017208393" duration="1348000" />
+      <workItem from="1714622350345" duration="2463000" />
+    </task>
+    <task id="LOCAL-00001" summary="init 2 part">
+      <option name="closed" value="true" />
+      <created>1713546403136</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1713546403136</updated>
+    </task>
+    <task id="LOCAL-00002" summary="done a-f">
+      <option name="closed" value="true" />
+      <created>1713551784229</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1713551784229</updated>
+    </task>
+    <task id="LOCAL-00003" summary="done a-f &amp; m-n&#10;didnt: g, h, i, j, k, l">
+      <option name="closed" value="true" />
+      <created>1713552860613</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1713552860614</updated>
+    </task>
+    <task id="LOCAL-00004" summary="doing links file">
+      <option name="closed" value="true" />
+      <created>1713554441344</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1713554441345</updated>
+    </task>
+    <task id="LOCAL-00005" summary="doing links file">
+      <option name="closed" value="true" />
+      <created>1713554526368</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1713554526368</updated>
+    </task>
+    <task id="LOCAL-00006" summary="done">
+      <option name="closed" value="true" />
+      <created>1713557398410</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1713557398410</updated>
+    </task>
+    <task id="LOCAL-00007" summary="update HOWTOTEST.md">
+      <option name="closed" value="true" />
+      <created>1713557498802</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1713557498802</updated>
+    </task>
+    <task id="LOCAL-00008" summary="update HOWTOTEST.md">
+      <option name="closed" value="true" />
+      <created>1713557531195</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1713557531195</updated>
+    </task>
+    <task id="LOCAL-00009" summary="update perror">
+      <option name="closed" value="true" />
+      <created>1713592278003</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1713592278003</updated>
+    </task>
+    <task id="LOCAL-00010" summary="3.3 &#10;er1 handle compile warning&#10;er2/er3 perror + output text">
+      <option name="closed" value="true" />
+      <created>1714018498038</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1714018498038</updated>
+    </task>
+    <task id="LOCAL-00011" summary="3.2 Исправила makedir, сделала интерфейс более user-friendly">
+      <option name="closed" value="true" />
+      <created>1714624377320</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1714624377320</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VCPKGProject">
+    <isAutomaticCheckingOnLaunch value="false" />
+    <isAutomaticFoundErrors value="true" />
+    <isAutomaticReloadCMake value="true" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="init 2 part" />
+    <MESSAGE value="done a-f" />
+    <MESSAGE value="done a-f &amp; m-n&#10;didnt: g, h, i, j, k, l" />
+    <MESSAGE value="doing links file" />
+    <MESSAGE value="done" />
+    <MESSAGE value="update HOWTOTEST.md" />
+    <MESSAGE value="update perror" />
+    <MESSAGE value="3.3 &#10;er1 handle compile warning&#10;er2/er3 perror + output text" />
+    <MESSAGE value="3.2 Исправила makedir, сделала интерфейс более user-friendly" />
+    <option name="LAST_COMMIT_MESSAGE" value="3.2 Исправила makedir, сделала интерфейс более user-friendly" />
+  </component>
+</project>

@@ -1,0 +1,5 @@
+# ninja log v5
+1	40	1714629776521114084	CMakeFiles/hard_link.dir/main.c.o	1333b58b6913d833
+2	41	1714629776521114084	CMakeFiles/hard_link.dir/links_handler.c.o	ad975b98019f4c52
+1	47	1714629776525113810	CMakeFiles/hard_link.dir/file_dir_handler.c.o	8576c5343520411b
+47	70	1714629776549112169	hard_link	f89b1ed0ab0cab61

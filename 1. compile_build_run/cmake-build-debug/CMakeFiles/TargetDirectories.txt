@@ -1,0 +1,3 @@
+/home/freak1rget/CLionProjects/OS_labs/compile_build_run/cmake-build-debug/CMakeFiles/compile_build_run.dir
+/home/freak1rget/CLionProjects/OS_labs/compile_build_run/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/freak1rget/CLionProjects/OS_labs/compile_build_run/cmake-build-debug/CMakeFiles/rebuild_cache.dir

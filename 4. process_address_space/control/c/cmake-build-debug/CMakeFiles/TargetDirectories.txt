@@ -1,0 +1,3 @@
+/home/freak1rget/CLionProjects/OS_labs/process_address_space/control/c/cmake-build-debug/CMakeFiles/main.dir
+/home/freak1rget/CLionProjects/OS_labs/process_address_space/control/c/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/freak1rget/CLionProjects/OS_labs/process_address_space/control/c/cmake-build-debug/CMakeFiles/rebuild_cache.dir
