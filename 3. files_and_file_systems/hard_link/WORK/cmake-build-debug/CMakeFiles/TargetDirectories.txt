@@ -1,3 +1,0 @@
-/home/freak1rget/CLionProjects/OS_labs/files_and_file_systems/hard_link/WORK/cmake-build-debug/CMakeFiles/hard_link.dir
-/home/freak1rget/CLionProjects/OS_labs/files_and_file_systems/hard_link/WORK/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/freak1rget/CLionProjects/OS_labs/files_and_file_systems/hard_link/WORK/cmake-build-debug/CMakeFiles/rebuild_cache.dir
