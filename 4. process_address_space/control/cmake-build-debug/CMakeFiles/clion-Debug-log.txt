@@ -1,1 +1,0 @@
-CMakeLists.txt not found in /home/freak1rget/CLionProjects/OS_labs/process_address_space/control Select CMakeLists.txt
