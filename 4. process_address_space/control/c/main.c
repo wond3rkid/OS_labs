@@ -9,7 +9,7 @@
 #define PAGE_SIZE sysconf(_SC_PAGESIZE)
 
 void handle_sigsegv() {
-    write(stdout, "Received SIGSEGV signal.",, 24);
+    write(0, "Received SIGSEGV signal.", 24);
     exit(1);
 }
 
@@ -149,12 +149,12 @@ void create_add_part() {
 
 int main() {
     printf("My pid: %d \n", getpid());
-    sleep(20);
+    sleep(2);
 //    resursive_stack_array();
 //    heap_array_while();
 //    create_add();
 //    create_add_change();
-//    create_add_change_handled();
-    create_add_part();
+    create_add_change_handled();
+//    create_add_part();
     return 0;
 }
