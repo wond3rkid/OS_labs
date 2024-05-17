@@ -83,3 +83,13 @@
 - разделяемая память (MAP_SHARED / shm_open)
 - unnamed pipes / named (FIFO)
 - Unix domain sockets, их типы
+
+
+#### 7. Сеть:
+- none
+
+
+#### 8. Понятие пользователя. Управление правами.
+- обычные права для файлов (rwx)
+- специальные права (эффективные - setuid и setgid, sticky bit)
+- capabilities у процессов (слишком подробно читать чем отличаются permitted inheritable effective и ambient не нужно)
