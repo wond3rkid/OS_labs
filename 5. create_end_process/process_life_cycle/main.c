@@ -12,6 +12,7 @@ int main() {
     pid_t pid_parent = getpid();
     printf("My pid: %d \n", pid_parent);
     pid_t pid_fork = fork();
+    sleep(10);
     if (pid_fork == -1) {
         perror("Fork");
         return 1;
@@ -32,7 +33,7 @@ int main() {
         if (WIFEXITED(status)) {
             printf("Child process %d ended with %d status\n", child, WIFEXITED(status));
         } else {
-            printf("Child process %d ended without ok \n", child, WIFEXITED(status));
+            printf("Child process %d ended without ok. Status: %d \n", child, WIFEXITED(status));
         }
     }
     return 0;

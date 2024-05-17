@@ -21,6 +21,8 @@ int main() {
         printf("C_proc: local var %d and its address %p \n", local_var, &local_var);
         global_var = 20;
         local_var = 207;
+        printf("C_proc: global var %d and its address %p \n", global_var, &global_var);
+        printf("C_proc: local var %d and its address %p \n", local_var, &local_var);
         sleep(20);
         exit(2);
     } else {
@@ -29,5 +31,6 @@ int main() {
         sleep(10);
         printf("Finish parent process \n");
     }
+    printf("P_proc: global var %d and its address %p \n", global_var, &global_var);
     return 0;
 }
