@@ -14,5 +14,5 @@ gcc -o udp_server udp_server.c
 3. В другом терминале запускаем клиент следующей командой. n используем такое же, как в прошлой команде.
 
 ```c
-./udp_client local n "Hi i am first client"
+./udp_client localhost n "Hi i am first client"
 ```

@@ -32,10 +32,13 @@ int main() {
         while (true) {
             if (read(file_pipe[0], &received_value, sizeof(received_value)) > 0) {
                 if (received_value != expected_value) {
-                    fprintf(stderr, "Error with data: expected - %u | received - %u \n", expected_value, received_value);
+                    fprintf(stderr, "Error with data: expected - %u | received - %u \n", expected_value,
+                            received_value);
                     expected_value = received_value;
                 }
-                fprintf(stdout, "received : %u | expected : %u \n", received_value, expected_value);
+                if (received_value % 10000 == 0) {
+                    fprintf(stdout, "received : %u | expected : %u \n", received_value, expected_value);
+                }
                 expected_value++;
             } else {
                 perror("Read error");
@@ -43,7 +46,6 @@ int main() {
             }
         }
         wait(NULL);
-
     }
     return EXIT_SUCCESS;
 }
