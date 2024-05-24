@@ -33,6 +33,7 @@ int main(int argc, char **argv) {
     server_addr.sin_port = htons((unsigned short) port);
 
     if (bind(socket_fd, (struct sockaddr *) &server_addr, sizeof(server_addr)) < 0) {
+        close(socket_fd);
         perror("Bind error");
         return 1;
     }
@@ -41,12 +42,14 @@ int main(int argc, char **argv) {
     while (1) {
         msg_len = recvfrom(socket_fd, buf, BUFFER_SIZE, 0, (struct sockaddr *) &client_addr, &client_length);
         if (msg_len < 0) {
+            close(socket_fd);
             perror("Recvfrom error");
             return 1;
         }
 
         msg_len = sendto(socket_fd, buf, msg_len, 0, (struct sockaddr *) &client_addr, client_length);
         if (msg_len < 0) {
+            close(socket_fd);
             perror("Sendto error");
             return 1;
         }

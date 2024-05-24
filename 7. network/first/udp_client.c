@@ -31,6 +31,7 @@ int main(int argc, char **argv) {
 
     server = gethostbyname(hostname);
     if (server == NULL) {
+        close(socket_fd);
         fprintf(stderr, "Error, this host %s isn't exist \n", hostname);
         return 1;
     }
@@ -42,6 +43,7 @@ int main(int argc, char **argv) {
 
     msg_len = sendto(socket_fd, message, strlen(message), 0, (struct sockaddr *) &server_addr, sizeof(server_addr));
     if (msg_len < 0) {
+        close(socket_fd);
         perror("Sendto error");
         return 1;
     }
@@ -49,6 +51,7 @@ int main(int argc, char **argv) {
     socklen_t serverlen = sizeof(server_addr);
     msg_len = recvfrom(socket_fd, buffer, BUFFER_SIZE, 0, (struct sockaddr *) &server_addr, &serverlen);
     if (msg_len < 0) {
+        close(socket_fd);
         perror("Recvfrom error");
         return 1;
     }
