@@ -7,13 +7,13 @@
 #include <netinet/in.h>
 
 #define port 8080
-#define BUF_SIZE 1024
+#define BUFFER_SIZE 1024
 
 void handle_client(int client_socket) {
-    char buffer[BUF_SIZE];
+    char buffer[BUFFER_SIZE];
     int read_size;
 
-    while ((read_size = recv(client_socket, buffer, BUF_SIZE, 0)) > 0) {
+    while ((read_size = recv(client_socket, buffer, BUFFER_SIZE, 0)) > 0) {
         send(client_socket, buffer, read_size, 0);
     }
 
@@ -53,7 +53,7 @@ int main() {
         printf("New connection %s:%d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
 
         if ((pid = fork()) == 0) {
-            close(server_socket);
+            close(server_socket);ф
             handle_client(client_socket);
             exit(0);
         } else if (pid < 0) {
