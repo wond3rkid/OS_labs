@@ -26,7 +26,8 @@ void handle_client(int client_socket) {
 }
 
 void handle_sigint(int sig) {
-    printf("\nCaught signal %d. Terminated. \n", sig);
+    const char *msg = "Caught signal. Terminated...\n";
+    write(STDOUT_FILENO, msg, strlen(msg));
     close(server_socket);
     unlink(SOCKET_PATH);
     _exit(0);
