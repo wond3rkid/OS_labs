@@ -27,7 +27,7 @@ int main() {
     pid_t pid;
 
     if ((server_socket = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
-        perror("Socket create error ");
+        perror("Socket create error");
         exit(EXIT_FAILURE);
     }
 
@@ -53,7 +53,7 @@ int main() {
         printf("New connection %s:%d\n", inet_ntoa(client_addr.sin_addr), ntohs(client_addr.sin_port));
 
         if ((pid = fork()) == 0) {
-            close(server_socket);ф
+            close(server_socket);
             handle_client(client_socket);
             exit(0);
         } else if (pid < 0) {

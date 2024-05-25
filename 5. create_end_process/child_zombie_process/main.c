@@ -23,12 +23,12 @@ int main() {
         local_var = 207;
         printf("C_proc: global var %d and its address %p \n", global_var, &global_var);
         printf("C_proc: local var %d and its address %p \n", local_var, &local_var);
-        sleep(20);
+        sleep(200);
         exit(2);
     } else {
         printf("P_proc: global var %d and its address %p \n", global_var, &global_var);
         printf("P_proc: local var %d and its address %p \n", local_var, &local_var);
-        sleep(10);
+        sleep(100);
         printf("Finish parent process \n");
     }
     printf("P_proc: global var %d and its address %p \n", global_var, &global_var);

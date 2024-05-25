@@ -43,7 +43,7 @@ int main() {
 
         bytes_received = recv(client_socket, buffer, BUF_SIZE, 0);
         if (bytes_received <= 0) {
-            perror("Receive data error");
+            fprintf(stderr, "Receive data error");
             close(client_socket);
             exit(EXIT_FAILURE);
         }
