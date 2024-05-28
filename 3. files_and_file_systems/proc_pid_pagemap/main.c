@@ -1,85 +1,60 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <fcntl.h>
 #include <stdint.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+#include <string.h>
 
-#define PAGE_SIZE 4096
+#define PAGEMAP_ENTRY 8
+#define GET_BIT(X, Y) ((X & ((uint64_t)1 << Y)) >> Y)
 
-void print_pagemap_entry(uint64_t entry) {
-    if (entry & (1ULL << 63)) {
-        printf("PFN: 0x%llx ", entry & ((1ULL << 55) - 1));
-        if (entry & (1ULL << 62)) printf("swap ");
-        if (entry & (1ULL << 61)) printf("file ");
-    } else {
-        printf("Page not present ");
-    }
-    printf("\n");
-}
-
-void read_pagemap(pid_t pid, unsigned long start, unsigned long end) {
-    char pagemap_path[256];
-    snprintf(pagemap_path, sizeof(pagemap_path), "/proc/%d/pagemap", pid);
-
-    int pagemap_fd = open(pagemap_path, O_RDONLY);
-    if (pagemap_fd == -1) {
-        perror("Failed to open pagemap");
-        exit(EXIT_FAILURE);
+void read_pagemap(const char *path) {
+    FILE *f = fopen(path, "rb");
+    if (f == NULL) {
+        perror("open");
+        exit(1);
     }
 
-    uint64_t entry;
-    for (unsigned long vaddr = start; vaddr < end; vaddr += PAGE_SIZE) {
-        off_t offset = (vaddr / PAGE_SIZE) * sizeof(entry);
-        if (lseek(pagemap_fd, offset, SEEK_SET) == (off_t)-1) {
-            perror("Failed to seek pagemap");
-            close(pagemap_fd);
-            exit(EXIT_FAILURE);
+    unsigned long virt_addr = 0;
+    uint64_t read_val;
+    unsigned char c_buf[PAGEMAP_ENTRY];
+
+    while (fread(c_buf, 1, PAGEMAP_ENTRY, f) == PAGEMAP_ENTRY) {
+        read_val = 0;
+        for (int i = PAGEMAP_ENTRY - 1; i >= 0; --i) {
+            read_val = (read_val << 8) | c_buf[i];
         }
 
-        if (read(pagemap_fd, &entry, sizeof(entry)) != sizeof(entry)) {
-            perror("Failed to read pagemap entry");
-            close(pagemap_fd);
-            exit(EXIT_FAILURE);
+        printf("0x%lx 0x%llx | ", virt_addr, (unsigned long long) read_val);
+
+        if (GET_BIT(read_val, 63)) {
+            printf("Page present\n");
+        } else if (GET_BIT(read_val, 62)) {
+            printf("Page swapped\n");
+        } else {
+            printf("Page not present\n");
         }
 
-        printf("Page %lx: 0x%016llx ", vaddr / PAGE_SIZE, (unsigned long long)entry);
-        print_pagemap_entry(entry);
+        virt_addr += getpagesize();
     }
-
-    close(pagemap_fd);
+    fclose(f);
 }
 
-void print_pagemap(pid_t pid) {
-    char maps_path[256];
-    snprintf(maps_path, sizeof(maps_path), "/proc/%d/maps", pid);
-
-    FILE *maps_file = fopen(maps_path, "r");
-    if (!maps_file) {
-        perror("Failed to open maps file");
-        exit(EXIT_FAILURE);
-    }
-
-    unsigned long start, end;
-    char line[256];
-    while (fgets(line, sizeof(line), maps_file)) {
-        if (sscanf(line, "%lx-%lx", &start, &end) == 2) {
-            read_pagemap(pid, start, end);
-        }
-    }
-
-    fclose(maps_file);
-}
-
-int main(int argc, char *argv[]) {
+int main(int argc, char **argv) {
     if (argc != 2) {
-        fprintf(stderr, "Usage: %s <pid>\n", argv[0]);
-        exit(EXIT_FAILURE);
+        fprintf(stderr, "Usage: %s PID\n", argv[0]);
+        exit(1);
     }
-
-    pid_t pid = atoi(argv[1]);
-    print_pagemap(pid);
-
-    return 0;
+    char path_buf[64];
+    if (strcmp(argv[1], "self") == 0) {
+        snprintf(path_buf, sizeof(path_buf), "/proc/self/pagemap");
+    } else {
+        int pid = strtol(argv[1], NULL, 10);
+        if (pid <= 0) {
+            fprintf(stderr, "Check your pid, it's must be more than zero or 'self' \n");
+            exit(1);
+        }
+        snprintf(path_buf, sizeof(path_buf), "/proc/%d/pagemap", pid);
+    }
+    read_pagemap(path_buf);
+    exit(0);
 }
