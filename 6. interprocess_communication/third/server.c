@@ -4,6 +4,7 @@
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <signal.h>
+#include <stdlib.h>
 
 #define SOCKET_PATH "/tmp/echo_socket"
 #define BUFFER_SIZE 1024
@@ -33,7 +34,7 @@ void handle_sigint(int sig) {
     _exit(0);
 }
 
-int main() {
+void main() {
     struct sockaddr_un server_addr, client_addr;
     socklen_t client_addr_len = sizeof(client_addr);
 
@@ -42,7 +43,7 @@ int main() {
     server_socket = socket(AF_UNIX, SOCK_STREAM, 0);
     if (server_socket == -1) {
         perror("Socket create error");
-        return 1;
+        exit(1);
     }
 
     memset(&server_addr, 0, sizeof(server_addr));
@@ -53,13 +54,13 @@ int main() {
     if (bind(server_socket, (struct sockaddr *) &server_addr, sizeof(server_addr)) == -1) {
         perror("Bind error");
         close(server_socket);
-        return 1;
+        exit(1);
     }
 
     if (listen(server_socket, 5) == -1) {
         perror("Listen error");
         close(server_socket);
-        return 1;
+        exit(1);
     }
 
     fprintf(stdout, "Echo server is listening...\n");
@@ -74,10 +75,9 @@ int main() {
         if (fork() == 0) {
             close(server_socket);
             handle_client(client_socket);
-            return 1;
+            exit(0);
         } else {
             close(client_socket);
         }
     }
-    return 0;
 }

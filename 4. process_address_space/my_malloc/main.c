@@ -36,7 +36,6 @@ void *my_malloc(size_t size) {
     return NULL;
 }
 
-
 void merge_blocks() {
     block *current = memory_blocks;
     while (current != NULL && current->next != NULL) {
@@ -72,18 +71,29 @@ int main() {
     char *ptr1 = (char *) my_malloc(100);
     if (ptr1) {
         strcpy(ptr1, "Hello, world!");
-        fprintf(stdout, "ptr1: %s\n", ptr1);
+        fprintf(stdout, "ptr1: %s %p\n", ptr1, ptr1);
     }
 
     char *ptr2 = (char *) my_malloc(200);
     if (ptr2) {
         strcpy(ptr2, "Bye, my pretty nice world");
-        fprintf(stdout, "ptr2: %s\n", ptr2);
+        fprintf(stdout, "ptr2: %s %p\n", ptr2, ptr2);
     }
     char *ptr3 = (char *) my_malloc(HEAP);
-    fprintf(stdout, "ptr3: %p \n", ptr3);
+    fprintf(stdout, "ptr3: %s %p \n", ptr3, ptr3);
     my_free(ptr1);
+    char *ptr4 = my_malloc(70);
+    char *ptr5 = my_malloc(60);
+    if (ptr4) {
+        strcpy(ptr4, "Bye, my pretty nice world");
+        fprintf(stdout, "ptr4: %s %p\n", ptr4, ptr4);
+    }
+    if (ptr5) {
+        strcpy(ptr5, "Bye, my pretty nice world");
+        fprintf(stdout, "ptr5: %s %p\n", ptr5, ptr5);
+    }
     my_free(ptr2);
+
     munmap(heap_start, HEAP);
     exit(0);
 }
