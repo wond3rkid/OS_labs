@@ -5,6 +5,7 @@
 #include <sys/un.h>
 #include <signal.h>
 #include <stdlib.h>
+#include <sys/wait.h>
 
 #define SOCKET_PATH "/tmp/echo_socket"
 #define BUFFER_SIZE 1024
@@ -26,6 +27,11 @@ void handle_client(int client_socket) {
     close(client_socket);
 }
 
+
+void sigchld_handler(int sig) {
+    while (waitpid(-1, NULL, WNOHANG) > 0);
+}
+
 void handle_sigint(int sig) {
     const char *msg = "Caught signal. Terminated...\n";
     write(STDOUT_FILENO, msg, strlen(msg));
@@ -39,7 +45,14 @@ void main() {
     socklen_t client_addr_len = sizeof(client_addr);
 
     signal(SIGINT, handle_sigint);
-
+    struct sigaction sa;
+    sa.sa_handler = sigchld_handler;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = SA_RESTART;
+    if (sigaction(SIGCHLD, &sa, NULL) == -1) {
+        perror("sigaction");
+        exit(EXIT_FAILURE);
+    }
     server_socket = socket(AF_UNIX, SOCK_STREAM, 0);
     if (server_socket == -1) {
         perror("Socket create error");
