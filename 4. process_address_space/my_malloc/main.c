@@ -57,8 +57,7 @@ void my_free(void *memory) {
     merge_blocks();
 }
 
-
-int main() {
+void initialize() {
     heap_start = mmap(NULL, HEAP, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
     if (heap_start == MAP_FAILED) {
         perror("init mmap");
@@ -68,6 +67,10 @@ int main() {
     memory_blocks->size = HEAP - sizeof(block);
     memory_blocks->free = 1;
     memory_blocks->next = NULL;
+}
+
+int main() {
+    initialize();
     char *ptr1 = (char *) my_malloc(100);
     if (ptr1) {
         strcpy(ptr1, "Hello, world!");
