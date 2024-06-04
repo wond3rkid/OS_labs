@@ -5,12 +5,14 @@ setup:
 	chmod 400 secret_file.txt
 	echo "This is a secret content." > secret_file.txt
 	gcc -o main main.c
-	sudo chown root:root main
-	sudo chmod 4755 main
+	./main secret_file.txt
+	chmod 4755 main
+	useradd regularuser
 	su -c "./main secret_file.txt" regularuser
 	./main secret_file.txt
 
 clean:
 	rm -f main secret_file.txt
+	userdel regularuser
 
 .PHONY: all clean setup
